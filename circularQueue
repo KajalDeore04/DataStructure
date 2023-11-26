@@ -1,0 +1,98 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int circularQueue[5];
+int front = -1, rear = -1, count = 0;
+
+int isFull() {
+    return count == 5;
+}
+
+int isEmpty() {
+    return count == 0;
+}
+
+void enqueue(int value) {
+    if (isFull()) {
+        printf("Element can't be inserted. Queue is full.\n");
+        return;
+    }
+
+    if (isEmpty()) {
+        front = rear = 0;
+    } else {
+        rear = (rear + 1) % 5;
+    }
+
+    circularQueue[rear] = value;
+    count++;
+    printf("%d Enqueued\n", value);
+}
+
+void dequeue() {
+    if (isEmpty()) {
+        printf("Element can't be deleted. Queue is empty.\n");
+    } else {
+        int value = circularQueue[front];
+        printf("%d Dequeued\n", value);
+
+        if (front == rear) {
+            front = rear = -1;
+        } else {
+            front = (front + 1) % 5;
+        }
+
+        count--;
+    }
+}
+
+void display() {
+    if (isEmpty()) {
+        printf("No elements are present in the Queue.\n");
+    } else {
+        printf("Queue Elements: ");
+        int i = front;
+
+        do {
+            printf("%d ", circularQueue[i]);
+            i = (i + 1) % 5;
+        } while (i != (rear + 1) % 5);
+
+        printf("\n");
+    }
+}
+
+int main() {
+    int value, choice;
+
+    while (1) {
+        printf("\n");
+        printf("1. Enqueue\n2. Dequeue\n3. Display\n4. Exit\nEnter Your Choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter the Element: ");
+                scanf("%d", &value);
+                enqueue(value);
+                break;
+
+            case 2:
+                dequeue();
+                break;
+
+            case 3:
+                display();
+                break;
+
+            case 4:
+                printf("Exiting the Program\n");
+                exit(0);
+
+            default:
+                printf("Invalid choice! Please enter a valid option.\n");
+        }
+    }
+
+    return 0;
+}

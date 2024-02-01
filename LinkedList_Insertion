@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Creates an empty node in the linked list
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+// Function to insert a new node at the beginning of the linked list
+void insertAtBeginning(struct Node** head, int newData) {
+    // Allocates memory for a new node
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    
+    // Put data into the new node
+    newNode->data = newData;
+    
+    // Set the pointer of the new node to the current head
+    newNode->next = *head;
+    
+    // Set the new node as head 
+    *head = newNode;
+}
+
+// Function to print the elements of the linked list
+void printList(struct Node* head) {
+    printf("Linked List: ");
+    while (head != NULL) {
+        printf("%d -> ", head->data);
+        head = head->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    // Initialize an empty linked list
+    struct Node* head = NULL;
+    
+    // Insert some elements at the beginning
+    insertAtBeginning(&head, 3);
+    printList(head);
+    
+    insertAtBeginning(&head, 7);
+    printList(head);
+
+    return 0;
+}

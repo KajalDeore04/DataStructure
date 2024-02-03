@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+void insertInMiddle(struct Node** head, int newData) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+    newNode->data = newData;
+    newNode->next = NULL;
+
+    struct Node* slowPtr = *head;
+    struct Node* fastPtr = *head;
+    struct Node* prevNode = NULL;
+
+    while (fastPtr != NULL && fastPtr->next != NULL) {
+        fastPtr = fastPtr->next->next;
+        prevNode = slowPtr;
+        slowPtr = slowPtr->next;
+    }
+
+    if (prevNode != NULL) {
+        prevNode->next = newNode;
+        newNode->next = slowPtr;
+    } else {
+        newNode->next = *head;
+        *head = newNode;
+    }
+}
+
+void printList(struct Node* head) {
+    printf("Linked List: ");
+    while (head != NULL) {
+        printf("%d -> ", head->data);
+        head = head->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    struct Node* head = NULL;
+
+    insertInMiddle(&head, 3);
+    printList(head);
+
+    insertInMiddle(&head, 7);
+    printList(head);
+
+    insertInMiddle(&head, 11);
+    printList(head);
+
+    return 0;
+}
